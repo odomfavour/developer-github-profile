@@ -12,7 +12,7 @@ let avatarBimage = document.querySelector('.person-b-image')
 
 const getReposQuery = ` query { user(login: "odomfavour") { name login bio avatarUrl email repositories(first:20) { totalCount edges {node { name description updatedAt openGraphImageUrl primaryLanguage{ name} parent { name owner { login }}}  } } } }`;
 
-const token = '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';
+const token = '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';
 
 const auth = {
     headers: {
@@ -24,7 +24,7 @@ const auth = {
 //     return await graphql(getReposQuery, auth)
 // }
 // You can use ES6 syntax to make it semantic and in one-line!
-const niceRequest = async (q, a) => await graphql(q, a)
+const niceRequest = (q, a) => graphql(q, a)
 
 
 /* STEP 4: USE THE FUNCTION */
@@ -110,6 +110,7 @@ let html = "";
   console.log(res.user.repositories.edges)
 
 })
+.catch((err) => console.log(err))
 
 // console.log(getReposQuery.data)
 
