@@ -13,7 +13,6 @@ let avatarBimage = document.querySelector('.person-b-image')
 
 const getReposQuery = ` query { user(login: "odomfavour") { name login bio avatarUrl email repositories(first:20) { totalCount edges {node { name description updatedAt openGraphImageUrl primaryLanguage{ name} parent { name owner { login }}}  } } } }`;
 
-// const code = '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';
 
 const auth = {
     headers: {
