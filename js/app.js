@@ -9,9 +9,11 @@ const repoCount = document.querySelector('#badge-count');
 const personalMail = document.querySelector('#person-mail')
 let avatarImage = document.querySelector('.person-image')
 let avatarBimage = document.querySelector('.person-b-image')
+const starRepo = document.querySelector('#star-repo');
+const followers = document.querySelector('#followers');
+const following = document.querySelector('#following');
 
-
-const getReposQuery = ` query { user(login: "odomfavour") { name login bio avatarUrl email repositories(first:20) { totalCount edges {node { name description updatedAt openGraphImageUrl primaryLanguage{ name} parent { name owner { login }}}  } } } }`;
+const getReposQuery = ` query { user(login: "odomfavour") { name login bio avatarUrl email followers{ totalCount } following { totalCount } starredRepositories{ totalCount } repositories(first:20) { totalCount edges {node { name description updatedAt openGraphImageUrl primaryLanguage{ name} parent { name owner { login }}}  } } } }`;
 
 
 const auth = {
@@ -40,6 +42,9 @@ niceRequest(getReposQuery, auth)
   avatarImage.src = res.user?.avatarUrl;
   avatarBimage.src = res.user?.avatarUrl;
   personalMail.textContent = res.user.email;
+  followers.textContent = res.user.followers.totalCount
+  following.textContent = res.user.following.totalCount
+  starRepo.textContent = res.user.starredRepositories.totalCount
 let html = "";
   res.user.repositories.edges.forEach((e) => {
      html += `
@@ -76,7 +81,7 @@ let html = "";
                   </button>
               </div>
               <div class="text-right">
-                  <svg width="155" height="30">
+                  <svg width="100" height="30">
                       <defs>
                           <linearGradient id="gradient-368352072" x1="0" x2="0" y1="1" y2="0">
                               <stop offset="10%" stop-color="#9be9a8"></stop>
