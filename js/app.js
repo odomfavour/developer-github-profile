@@ -1,53 +1,51 @@
 import { graphql } from "https://cdn.skypack.dev/@octokit/graphql";
-import Web_Key from "../apiKey.js";
+import sum from "../apiKey.js";
 
-const repoLayout = document.querySelector('#repo-base')
-const fullName = document.querySelector('#name');
-const userName = document.querySelector('#username');
-const bio = document.querySelector('#bio');
-const repoCount = document.querySelector('#badge-count');
-const personalMail = document.querySelector('#person-mail')
-let avatarImage = document.querySelector('.person-image')
-let avatarBimage = document.querySelector('.person-b-image')
-const starRepo = document.querySelector('#star-repo');
-const followers = document.querySelector('#followers');
-const following = document.querySelector('#following');
+const repoLayout = document.querySelector("#repo-base");
+const fullName = document.querySelector("#name");
+const userName = document.querySelector("#username");
+const bio = document.querySelector("#bio");
+const repoCount = document.querySelector("#badge-count");
+const personalMail = document.querySelector("#person-mail");
+let avatarImage = document.querySelector(".person-image");
+let avatarBimage = document.querySelector(".person-b-image");
+const starRepo = document.querySelector("#star-repo");
+const followers = document.querySelector("#followers");
+const following = document.querySelector("#following");
 
 const getReposQuery = ` query { user(login: "odomfavour") { name login bio avatarUrl email followers{ totalCount } following { totalCount } starredRepositories{ totalCount } repositories(first:20) { totalCount edges {node { name description updatedAt openGraphImageUrl primaryLanguage{ name} parent { name owner { login }}}  } } } }`;
 
-
 const auth = {
-    headers: {
-        authorization: 'token ' + Web_Key
-    }
-}
+  headers: {
+    authorization: "token " + sum,
+  },
+};
 
 // async function makeRequest(getReposQuery, auth) {
 //     return await graphql(getReposQuery, auth)
 // }
 // You can use ES6 syntax to make it semantic and in one-line!
-const niceRequest = (q, a) => graphql(q, a)
-
+const niceRequest = (q, a) => graphql(q, a);
 
 /* STEP 4: USE THE FUNCTION */
 // This will resolve the promise and print it to console.
 // You can expand the objects and subobjects to see data.
-console.log(niceRequest(getReposQuery, auth))
+console.log(niceRequest(getReposQuery, auth));
 niceRequest(getReposQuery, auth)
-.then(res =>  {
-  fullName.textContent = res.user.name;
-  userName.textContent = res.user.login;
-  bio.textContent = res.user.bio;
-  repoCount.textContent = res.user.repositories.totalCount
-  avatarImage.src = res.user?.avatarUrl;
-  avatarBimage.src = res.user?.avatarUrl;
-  personalMail.textContent = res.user.email;
-  followers.textContent = res.user.followers.totalCount
-  following.textContent = res.user.following.totalCount
-  starRepo.textContent = res.user.starredRepositories.totalCount
-let html = "";
-  res.user.repositories.edges.forEach((e) => {
-     html += `
+  .then((res) => {
+    fullName.textContent = res.user.name;
+    userName.textContent = res.user.login;
+    bio.textContent = res.user.bio;
+    repoCount.textContent = res.user.repositories.totalCount;
+    avatarImage.src = res.user?.avatarUrl;
+    avatarBimage.src = res.user?.avatarUrl;
+    personalMail.textContent = res.user.email;
+    followers.textContent = res.user.followers.totalCount;
+    following.textContent = res.user.following.totalCount;
+    starRepo.textContent = res.user.starredRepositories.totalCount;
+    let html = "";
+    res.user.repositories.edges.forEach((e) => {
+      html += `
     <li class="repo-box">
       <div class="d-flex">
           <div class="right-side">
@@ -56,12 +54,24 @@ let html = "";
                       ${e.node.name}
                   </a>
                </h3> 
-               <div>${e.node.parent !== null ? `<span class="description">Forked from ${e.node.parent.owner.login}/${e.node.parent.name}` : `<div></div>`}</div>  
-                  <p class="description right-side" >${e.node.description !== null ? e.node.description : `<div></div>`}</p>
+               <div>${
+                 e.node.parent !== null
+                   ? `<span class="description">Forked from ${e.node.parent.owner.login}/${e.node.parent.name}`
+                   : `<div></div>`
+               }</div>  
+                  <p class="description right-side" >${
+                    e.node.description !== null
+                      ? e.node.description
+                      : `<div></div>`
+                  }</p>
                   <div class="repo-lower-info d-flex">
                       <div class="ball mr-8"></div>
 
-                      <span class="mr-8">${e.node.primaryLanguage !== null ? e.node.primaryLanguage.name : ''}</span>
+                      <span class="mr-8">${
+                        e.node.primaryLanguage !== null
+                          ? e.node.primaryLanguage.name
+                          : ""
+                      }</span>
                       <span class="mr-8">updated</span>
                       <span>${e.node.updatedAt}</span>
                   </div>
@@ -81,7 +91,7 @@ let html = "";
                   </button>
               </div>
               <div class="text-right">
-                  <svg width="100" height="30">
+                  <svg width="100" height="30" class="d-none">
                       <defs>
                           <linearGradient id="gradient-368352072" x1="0" x2="0" y1="1" y2="0">
                               <stop offset="10%" stop-color="#9be9a8"></stop>
@@ -107,18 +117,16 @@ let html = "";
       </div>
   </li>
 
-    `
-    console.log(e)
+    `;
+      console.log(e);
+    });
+
+    repoLayout.innerHTML = html;
+    console.log(res.user.repositories.edges);
   })
-
-  repoLayout.innerHTML = html
-  console.log(res.user.repositories.edges)
-
-})
-.catch((err) => console.log(err))
+  .catch((err) => console.log(err));
 
 // console.log(getReposQuery.data)
-
 
 //   const options = {
 //     'method': "POST",
@@ -130,6 +138,5 @@ let html = "";
 //       query: getReposQuery
 //     })
 //   };
- 
-// document.addEventListener('DOMContentLoaded',niceRequest)
 
+// document.addEventListener('DOMContentLoaded',niceRequest)
