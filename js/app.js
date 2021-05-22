@@ -1,4 +1,5 @@
 import { graphql } from "https://cdn.skypack.dev/@octokit/graphql";
+import Web_Key from "../apiKey.js";
 
 const repoLayout = document.querySelector('#repo-base')
 const fullName = document.querySelector('#name');
@@ -12,11 +13,11 @@ let avatarBimage = document.querySelector('.person-b-image')
 
 const getReposQuery = ` query { user(login: "odomfavour") { name login bio avatarUrl email repositories(first:20) { totalCount edges {node { name description updatedAt openGraphImageUrl primaryLanguage{ name} parent { name owner { login }}}  } } } }`;
 
-const token = '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';
+// const code = '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';
 
 const auth = {
     headers: {
-        authorization: 'token ' + token
+        authorization: 'token ' + Web_Key
     }
 }
 
