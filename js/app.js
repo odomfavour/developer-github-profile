@@ -1,5 +1,5 @@
 import { graphql } from "https://cdn.skypack.dev/@octokit/graphql";
-import sum from "../apiKey.js";
+import sum from "../test.js";
 
 const repoLayout = document.querySelector("#repo-base");
 const fullName = document.querySelector("#name");
