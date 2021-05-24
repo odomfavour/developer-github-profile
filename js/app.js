@@ -13,6 +13,7 @@ const starRepo = document.querySelector("#star-repo");
 const followers = document.querySelector("#followers");
 const following = document.querySelector("#following");
 
+
 const getReposQuery = ` query { user(login: "odomfavour") { name login bio avatarUrl email followers{ totalCount } following { totalCount } starredRepositories{ totalCount } repositories(first:20) { totalCount edges {node { name description updatedAt openGraphImageUrl primaryLanguage{ name} parent { name owner { login }}}  } } } }`;
 
 const auth = {
@@ -43,8 +44,25 @@ niceRequest(getReposQuery, auth)
     followers.textContent = res.user.followers.totalCount;
     following.textContent = res.user.following.totalCount;
     starRepo.textContent = res.user.starredRepositories.totalCount;
+
+    let ball = document.querySelectorAll(".ball");
+
     let html = "";
     res.user.repositories.edges.forEach((e) => {
+      let extension_color = {
+        JavaScript: '#f1e05a',
+        HTML: '#e34c26',
+        CSS: '#563d7c',
+        Vue: '#2c3e50',
+        default: '',
+      }
+      let extension = e.node?.primaryLanguage?.name ?? '';
+      
+      // if(e.node.primaryLanguage) {
+      //   if(e.node.primaryLanguage.name == 'HTML') {
+      //     ball.style.background = "red";
+      //   }
+      // }
       html += `
     <li class="repo-box">
       <div class="d-flex">
@@ -65,11 +83,18 @@ niceRequest(getReposQuery, auth)
                       : `<div></div>`
                   }</p>
                   <div class="repo-lower-info d-flex">
-                      <div class="ball mr-8"></div>
+                  ${
+                        e.node.primaryLanguage !== null
+                          ? Object.keys(extension_color)
+                            .includes(extension) ? `<div style="background-color: ${extension_color[extension]}" class="ball mr-8"></div>` :
+                            `<div style="background-color: ${extension_color['default']}" class="ball mr-8"></div>`
+                          : ""
+                      }
+        
 
                       <span class="mr-8">${
                         e.node.primaryLanguage !== null
-                          ? e.node.primaryLanguage.name
+                          ? e.node.primaryLanguage?.name
                           : ""
                       }</span>
                       <span class="mr-8">updated</span>

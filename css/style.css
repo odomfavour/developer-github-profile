@@ -131,7 +131,7 @@ header .hidden-burger {
 }
 
 .inner-container {
-  width: 95%;
+  width: 85%;
   margin: 0 auto;
 }
 
@@ -184,8 +184,8 @@ header .hidden-burger {
 }
 
 .image-box .big-img {
-  height: auto;
-  width: 260px;
+  height: 280px;
+  width: 280px;
   z-index: 4;
   margin-top: -30px;
 }
@@ -205,27 +205,29 @@ header .hidden-burger {
   line-height: 20px;
   border-radius: 6px;
   outline: none;
+  border: 1px solid #e1e4e8;
   box-shadow: 0 1px 0 rgba(225, 228, 232, 0.2);
 }
 
 .top-filter {
-  padding: 16px;
+  padding: 16px 0;
   border-bottom: 1px solid #e1e4e8;
 }
 
 .top-filter button,
 .repo-box button,
 button {
-  padding: 5px 12px;
+  padding: 5px 16px;
   font-size: 14px;
   font-weight: 500;
   border-color: rgba(27, 31, 35, 0.15);
   border-radius: 6px;
   cursor: pointer;
+  background: #fafbfc;
 }
 
 .green-new-btn {
-  background: #2ea44f;
+  background: #2ea44f !important;
   color: #fff;
 }
 
@@ -318,7 +320,7 @@ button {
   width: 38px;
   height: 38px;
   margin-bottom: 32px;
-  margin-left: -40px;
+  margin-left: -55px;
   text-align: center;
 }
 
@@ -356,7 +358,7 @@ button {
   display: none;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .header-link {
     margin-right: 0;
   }
@@ -445,7 +447,7 @@ button {
   }
 }
 
-@media (max-width: 1024px) and (min-width: 761px) {
+@media (max-width: 1024px) and (min-width: 769px) {
   .image-box .big-img {
     width: 200px !important;
     height: 200px;
