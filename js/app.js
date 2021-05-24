@@ -13,6 +13,7 @@ const starRepo = document.querySelector("#star-repo");
 const followers = document.querySelector("#followers");
 const following = document.querySelector("#following");
 
+
 const getReposQuery = ` query { user(login: "odomfavour") { name login bio avatarUrl email followers{ totalCount } following { totalCount } starredRepositories{ totalCount } repositories(first:20) { totalCount edges {node { name description updatedAt openGraphImageUrl primaryLanguage{ name} parent { name owner { login }}}  } } } }`;
 
 const auth = {
@@ -30,7 +31,7 @@ const niceRequest = (q, a) => graphql(q, a);
 /* STEP 4: USE THE FUNCTION */
 // This will resolve the promise and print it to console.
 // You can expand the objects and subobjects to see data.
-console.log(niceRequest(getReposQuery, auth));
+// console.log(niceRequest(getReposQuery, auth));
 niceRequest(getReposQuery, auth)
   .then((res) => {
     fullName.textContent = res.user.name;
@@ -43,8 +44,19 @@ niceRequest(getReposQuery, auth)
     followers.textContent = res.user.followers.totalCount;
     following.textContent = res.user.following.totalCount;
     starRepo.textContent = res.user.starredRepositories.totalCount;
+
+    let ball = document.querySelectorAll(".ball");
+
     let html = "";
     res.user.repositories.edges.forEach((e) => {
+      let extension_color = {
+        JavaScript: '#f1e05a',
+        HTML: '#e34c26',
+        CSS: '#563d7c',
+        Vue: '#2c3e50',
+        default: '',
+      }
+      let extension = e.node?.primaryLanguage?.name ?? '';
       html += `
     <li class="repo-box">
       <div class="d-flex">
@@ -65,11 +77,17 @@ niceRequest(getReposQuery, auth)
                       : `<div></div>`
                   }</p>
                   <div class="repo-lower-info d-flex">
-                      <div class="ball mr-8"></div>
-
+                  ${
+                        e.node.primaryLanguage !== null
+                          ? Object.keys(extension_color)
+                            .includes(extension) ? `<div style="background-color: ${extension_color[extension]}" class="ball mr-8"></div>` :
+                            `<div style="background-color: ${extension_color['default']}" class="ball mr-8"></div>`
+                          : ""
+                      }
+        
                       <span class="mr-8">${
                         e.node.primaryLanguage !== null
-                          ? e.node.primaryLanguage.name
+                          ? e.node.primaryLanguage?.name
                           : ""
                       }</span>
                       <span class="mr-8">updated</span>
@@ -118,25 +136,11 @@ niceRequest(getReposQuery, auth)
   </li>
 
     `;
-      console.log(e);
+      // console.log(e);
     });
 
     repoLayout.innerHTML = html;
-    console.log(res.user.repositories.edges);
+    // console.log(res.user.repositories.edges);
   })
   .catch((err) => console.log(err));
 
-// console.log(getReposQuery.data)
-
-//   const options = {
-//     'method': "POST",
-//     'mode': 'no-cors',
-//     'headers': {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify({
-//       query: getReposQuery
-//     })
-//   };
-
-// document.addEventListener('DOMContentLoaded',niceRequest)
