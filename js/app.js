@@ -31,7 +31,7 @@ const niceRequest = (q, a) => graphql(q, a);
 /* STEP 4: USE THE FUNCTION */
 // This will resolve the promise and print it to console.
 // You can expand the objects and subobjects to see data.
-console.log(niceRequest(getReposQuery, auth));
+// console.log(niceRequest(getReposQuery, auth));
 niceRequest(getReposQuery, auth)
   .then((res) => {
     fullName.textContent = res.user.name;
@@ -57,12 +57,6 @@ niceRequest(getReposQuery, auth)
         default: '',
       }
       let extension = e.node?.primaryLanguage?.name ?? '';
-      
-      // if(e.node.primaryLanguage) {
-      //   if(e.node.primaryLanguage.name == 'HTML') {
-      //     ball.style.background = "red";
-      //   }
-      // }
       html += `
     <li class="repo-box">
       <div class="d-flex">
@@ -91,7 +85,6 @@ niceRequest(getReposQuery, auth)
                           : ""
                       }
         
-
                       <span class="mr-8">${
                         e.node.primaryLanguage !== null
                           ? e.node.primaryLanguage?.name
@@ -143,25 +136,11 @@ niceRequest(getReposQuery, auth)
   </li>
 
     `;
-      console.log(e);
+      // console.log(e);
     });
 
     repoLayout.innerHTML = html;
-    console.log(res.user.repositories.edges);
+    // console.log(res.user.repositories.edges);
   })
   .catch((err) => console.log(err));
 
-// console.log(getReposQuery.data)
-
-//   const options = {
-//     'method': "POST",
-//     'mode': 'no-cors',
-//     'headers': {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify({
-//       query: getReposQuery
-//     })
-//   };
-
-// document.addEventListener('DOMContentLoaded',niceRequest)
