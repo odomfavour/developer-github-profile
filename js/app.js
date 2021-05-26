@@ -31,7 +31,7 @@ const niceRequest = (q, a) => graphql(q, a);
 /* STEP 4: USE THE FUNCTION */
 // This will resolve the promise and print it to console.
 // You can expand the objects and subobjects to see data.
-// console.log(niceRequest(getReposQuery, auth));
+console.log(niceRequest(getReposQuery, auth));
 niceRequest(getReposQuery, auth)
   .then((res) => {
     fullName.textContent = res.user.name;
@@ -90,8 +90,8 @@ niceRequest(getReposQuery, auth)
                           ? e.node.primaryLanguage?.name
                           : ""
                       }</span>
-                      <span class="mr-8">updated</span>
-                      <span>${e.node.updatedAt}</span>
+                      <span class="mr-8">Updated</span>
+                      <span>${formatDate(e.node.updatedAt)}</span>
                   </div>
             </div>
           <div class="left-side">
@@ -143,4 +143,50 @@ niceRequest(getReposQuery, auth)
     // console.log(res.user.repositories.edges);
   })
   .catch((err) => console.log(err));
+
+/**
+ * Gets a datetime, extracts the date section and formats it in a human-readable way
+ * @param {string|number} _date The datetime to be formatted
+ * @returns {string} The formatted date
+ */
+const formatDate = (_date) => {
+  const d = new Date(_date);
+
+  const day = d.getDate();
+  const weekDay = d.getDay();
+  const month = d.getMonth();
+  const year = d.getFullYear();
+
+  const days = {
+    "0": "Sunday",
+    "1": "Monday",
+    "2": "Tuesday",
+    "3": "Wednesday",
+    "4": "Thursday",
+    "5": "Friday",
+    "6": "Saturday",
+  };
+
+  const months = {
+    "0": "Jan",
+    "1": "Feb",
+    "2": "Mar",
+    "3": "Apr",
+    "4": "May",
+    "5": "Jun",
+    "6": "Jul",
+    "7": "Aug",
+    "8": "Sep",
+    "9": "Oct",
+    "10": "Nov",
+    "11": "Dec",
+  };
+
+
+  const dString = `${months[month.toString()]} ${day.toString()}, ${year}`;
+
+
+  return dString;
+};
+
 
